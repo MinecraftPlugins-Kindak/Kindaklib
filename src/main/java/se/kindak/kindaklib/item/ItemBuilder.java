@@ -72,7 +72,7 @@ public class ItemBuilder {
             }
         }
 
-        ItemBuilder itemBuilder = new ItemBuilder(type,amount,dataId);
+        ItemBuilder itemBuilder = new ItemBuilder(type, amount, dataId);
 
         if (lore != null)
             itemBuilder.getItemMeta().setLore(Arrays.asList(lore));
