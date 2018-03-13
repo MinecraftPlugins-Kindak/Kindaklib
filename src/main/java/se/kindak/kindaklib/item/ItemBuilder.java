@@ -48,7 +48,7 @@ public class ItemBuilder {
 
     public static ItemStack deSerilize(String serilizedItem) {
         String[] parts = serilizedItem.split("-");
-        String name;
+        String name = null;
         Material type = null;
         int amount = 1;
         short dataId = 1;
@@ -56,33 +56,39 @@ public class ItemBuilder {
         String enchantment = null;
         for (String part : parts) {
             char first = part.charAt(0);
+            String partNoPre = part.split(":")[1];
             if (first == 'N') {
-                name = part;
+                name = partNoPre;
             } else if (first == 'M') {
-                type = Material.getMaterial(part);
+                type = Material.getMaterial(partNoPre);
             } else if (first == 'A') {
-                amount = Integer.parseInt(part);
+                amount = Integer.parseInt(partNoPre);
             } else if (first == 'D') {
-                dataId = Short.parseShort(part);
+                dataId = Short.parseShort(partNoPre);
             } else if (first == 'L') {
-                lore = part.split(":")[1].split(",");
+                lore = partNoPre.split(",");
             } else if (first == 'E') {
-                enchantment = part;
+                enchantment = partNoPre;
             }
         }
 
         ItemBuilder itemBuilder = new ItemBuilder(type, amount, dataId);
 
-        if(lore != null)
+        if (lore != null)
             itemBuilder.getItemMeta().setLore(Arrays.asList(lore));
 
-        if(enchantment !=null){
-            for(String letter : enchantment.split(":")[1].split(":")){
-
+        if (enchantment != null) {
+            for (String enchandlevel : enchantment.split(":")[1].split(";")) {
+                int level = Integer.parseInt(enchandlevel.split(":")[1]);
+                Enchantment ench = Enchantment.getByName(enchandlevel.split(":")[0]);
+                itemBuilder.addEnchantment(ench, level);
             }
         }
+        if (name != null)
+            itemBuilder.setName(name);
 
-        return null;
+
+        return itemBuilder.build();
     }
 
     private ItemStack build() {
