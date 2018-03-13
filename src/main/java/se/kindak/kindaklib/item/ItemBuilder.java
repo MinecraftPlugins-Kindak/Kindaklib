@@ -12,12 +12,12 @@ public class ItemBuilder {
     private ItemStack itemStack;
     private ItemMeta itemMeta;
 
-    public ItemBuilder(Material type, int amount, int chance) {
-        this.itemStack = new ItemStack(type, amount);
+    public ItemBuilder(Material type, int amount, short dataId) {
+        this.itemStack = new ItemStack(type, amount, dataId);
         this.itemMeta = itemStack.getItemMeta();
     }
 
-    public ItemBuilder(Material type, int amount, String name, List<String> lore, int chance) {
+    public ItemBuilder(Material type, int amount, String name, List<String> lore) {
         this.itemStack = new ItemStack(type, amount);
         this.itemMeta = itemStack.getItemMeta();
         setName(name);
@@ -72,7 +72,7 @@ public class ItemBuilder {
             }
         }
 
-        ItemBuilder itemBuilder = new ItemBuilder(type, amount, dataId);
+        ItemBuilder itemBuilder = new ItemBuilder(type,amount,dataId);
 
         if (lore != null)
             itemBuilder.getItemMeta().setLore(Arrays.asList(lore));
