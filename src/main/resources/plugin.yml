@@ -1,0 +1,3 @@
+name: Kindaklib
+version: ${project.version}
+main: se.kindak.kindaklib.Kindaklib
