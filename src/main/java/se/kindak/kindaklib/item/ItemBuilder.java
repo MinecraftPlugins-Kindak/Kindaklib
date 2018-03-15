@@ -50,7 +50,6 @@ public class ItemBuilder {
         return name + "-" + type + "-" + amount + "-" + dataId + "-" + lore + "-" + enchantment;
     }
 
-
     public static ItemBuilder deSerilize(String serilizedItem) {
         String[] parts = serilizedItem.split("-");
         String name = null;
@@ -96,8 +95,7 @@ public class ItemBuilder {
         return itemBuilder;
     }
 
-
-    private ItemStack build() {
+    public ItemStack build() {
         this.itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
