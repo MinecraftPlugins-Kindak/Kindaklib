@@ -51,7 +51,7 @@ public class ItemBuilder {
     }
 
 
-    public static ItemStack deSerilize(String serilizedItem) {
+    public static ItemBuilder deSerilize(String serilizedItem) {
         String[] parts = serilizedItem.split("-");
         String name = null;
         Material type = null;
@@ -93,8 +93,9 @@ public class ItemBuilder {
             itemBuilder.setName(name);
 
 
-        return itemBuilder.build();
+        return itemBuilder;
     }
+
 
     private ItemStack build() {
         this.itemStack.setItemMeta(itemMeta);
