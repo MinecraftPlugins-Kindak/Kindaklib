@@ -25,6 +25,11 @@ public class ItemBuilder {
         this.build();
     }
 
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
+        this.itemMeta = itemStack.getItemMeta();
+    }
+
     public static String serilize(ItemStack itemStack) {
         String name = itemStack.getItemMeta().hasDisplayName() ? "N:" + itemStack.getItemMeta().getDisplayName() : "";
         String type = "M:" + itemStack.getType().name();

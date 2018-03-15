@@ -41,6 +41,7 @@ public class Cuboid {
     public Location getLocationTwo() {
         return locationTwo;
     }
+
     public void setLocationTwo(Location locationTwo) {
         this.locationTwo = locationTwo;
     }
