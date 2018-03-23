@@ -1,11 +1,13 @@
 package se.kindak.kindaklib.item;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import se.kindak.kindaklib.item.util.CustomEnchantment;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBuilder {
@@ -25,72 +27,28 @@ public class ItemBuilder {
         this.build();
     }
 
-    public ItemBuilder(ItemStack itemStack) {
-        this.itemStack = itemStack;
-        this.itemMeta = itemStack.getItemMeta();
-    }
-
+    //todo Fix serilize
     public static String serilize(ItemStack itemStack) {
-        String name = itemStack.getItemMeta().hasDisplayName() ? "N:" + itemStack.getItemMeta().getDisplayName() : "";
-        String type = "M:" + itemStack.getType().name();
-        String lore = "L:" + itemStack.getItemMeta().getLore().toString();
-        String enchantment = "";
-        String amount = "A:" + itemStack.getAmount();
-        String dataId = "D:" + itemStack.getDurability();
-        if (!itemStack.getEnchantments().keySet().isEmpty()) {
-            enchantment += "E:";
-            for (Enchantment ench : itemStack.getEnchantments().keySet()) {
-                if (enchantment.equalsIgnoreCase("E:"))
-                    enchantment += ench.getName() + ";" + itemStack.getEnchantments().get(ench) + ",";
-                else
-                    enchantment += "," + ench.getName() + ";" + itemStack.getEnchantments().get(ench);
-            }
-        }
-
-        return name + "-" + type + "-" + amount + "-" + dataId + "-" + lore + "-" + enchantment;
+        return "";
     }
 
-    public static ItemBuilder deSerilize(String serilizedItem) {
-        String[] parts = serilizedItem.split("-");
-        String name = null;
-        Material type = null;
-        int amount = 1;
-        short dataId = 1;
-        String[] lore = null;
-        String enchantment = null;
-        for (String part : parts) {
-            char first = part.charAt(0);
-            String partNoPre = part.split(":")[1];
-            if (first == 'N') {
-                name = partNoPre;
-            } else if (first == 'M') {
-                type = Material.getMaterial(partNoPre);
-            } else if (first == 'A') {
-                amount = Integer.parseInt(partNoPre);
-            } else if (first == 'D') {
-                dataId = Short.parseShort(partNoPre);
-            } else if (first == 'L') {
-                lore = partNoPre.split(",");
-            } else if (first == 'E') {
-                enchantment = partNoPre;
-            }
-        }
 
-        ItemBuilder itemBuilder = new ItemBuilder(type, amount, dataId);
+    public ItemBuilder deSerilize(ConfigurationSection section) {
+        String name = section.getString("Name");
+        Material type = Material.getMaterial(section.getString("Type"));
+        int amount = section.getInt("Amount");
+        short data = (short) section.getInt("Data");
+        List<String> lore = section.getStringList("Lore");
+        List<CustomEnchantment> enchantments = new ArrayList<>();
+        section.getStringList("Enchantments").forEach(s -> enchantments.add(CustomEnchantment.deSerilize(s)));
 
-        if (lore != null)
-            itemBuilder.getItemMeta().setLore(Arrays.asList(lore));
-
-        if (enchantment != null) {
-            for (String enchandlevel : enchantment.split(":")[1].split(";")) {
-                int level = Integer.parseInt(enchandlevel.split(":")[1]);
-                Enchantment ench = Enchantment.getByName(enchandlevel.split(":")[0]);
-                itemBuilder.addEnchantment(ench, level);
-            }
-        }
-        if (name != null)
+        ItemBuilder itemBuilder = new ItemBuilder(type, amount, data);
+        if (name != null || !name.equalsIgnoreCase(""))
             itemBuilder.setName(name);
-
+        if (lore != null || !lore.isEmpty())
+            itemBuilder.getItemMeta().setLore(lore);
+        if (enchantments != null || !enchantments.isEmpty())
+            enchantments.forEach(e -> itemBuilder.addEnchantment(e.getEnchantment(), e.getLevel()));
 
         return itemBuilder;
     }
