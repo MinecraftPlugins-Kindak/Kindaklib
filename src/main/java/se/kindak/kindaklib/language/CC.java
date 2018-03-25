@@ -3,7 +3,7 @@ package se.kindak.kindaklib.language;
 import org.bukkit.ChatColor;
 
 public class CC {
-    private final String
+    public static final String
             BOLD = ChatColor.BOLD.toString(), STRIPE = ChatColor.STRIKETHROUGH.toString(),
             MAGIC = ChatColor.MAGIC.toString(), UNDERLINE = ChatColor.UNDERLINE.toString(),
             ITALIC = ChatColor.ITALIC.toString(), RESET = ChatColor.RESET.toString(),
@@ -16,7 +16,7 @@ public class CC {
             GRAY = ChatColor.GRAY.toString(), D_GRAY = ChatColor.DARK_GRAY.toString(),
             YELLOW = ChatColor.YELLOW.toString(), GOLD = ChatColor.GOLD.toString();
 
-    public String clearColors(String message) {
+    public static String clearColors(String message) {
         return ChatColor.stripColor(message);
     }
 
