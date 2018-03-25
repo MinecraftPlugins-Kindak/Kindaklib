@@ -27,6 +27,11 @@ public class ItemBuilder {
         this.build();
     }
 
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
+        this.itemMeta = itemStack.getItemMeta();
+    }
+
     //todo Fix serilize
     public static String serilize(ItemStack itemStack) {
         return "";
