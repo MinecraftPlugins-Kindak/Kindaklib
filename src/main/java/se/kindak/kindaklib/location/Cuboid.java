@@ -1,15 +1,20 @@
 package se.kindak.kindaklib.location;
 
 import org.bukkit.Location;
+import org.bukkit.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cuboid {
-    private Location locationOne;
-    private Location locationTwo;
-
+    private final Location locationOne;
+    private final Location locationTwo;
+    private final World world;
 
     public Cuboid(Location locationOne, Location locationTwo) {
         this.locationOne = locationOne;
         this.locationTwo = locationTwo;
+        this.world = locationOne.getWorld();
     }
 
     public int[] getMinPoints() {
@@ -30,19 +35,29 @@ public class Cuboid {
         return points;
     }
 
+    public List<Location> getArea() {
+        ArrayList<Location> area = new ArrayList<>();
+        for (int x = this.getMinPoints()[0]; x < this.getMaxPoints()[0]; x++) {
+            for (int y = this.getMinPoints()[1]; y < this.getMaxPoints()[1]; y++) {
+                for (int z = this.getMinPoints()[2]; z < this.getMaxPoints()[2]; z++) {
+                    area.add(new Location(world, x, y, z));
+                }
+            }
+        }
+        return area;
+    }
+
     public Location getLocationOne() {
         return locationOne;
     }
 
-    public void setLocationOne(Location locationOne) {
-        this.locationOne = locationOne;
+    public World getWorld() {
+        return world;
     }
 
     public Location getLocationTwo() {
         return locationTwo;
     }
 
-    public void setLocationTwo(Location locationTwo) {
-        this.locationTwo = locationTwo;
-    }
+
 }
