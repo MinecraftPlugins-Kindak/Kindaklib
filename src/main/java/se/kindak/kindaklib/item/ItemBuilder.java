@@ -19,11 +19,13 @@ public class ItemBuilder {
         this.itemMeta = itemStack.getItemMeta();
     }
 
-    public ItemBuilder(Material type, int amount, String name, List<String> lore) {
-        this.itemStack = new ItemStack(type, amount);
+    public ItemBuilder(Material type, int amount, short dataId, String name, List<String> lore) {
+        this.itemStack = new ItemStack(type, amount, dataId);
         this.itemMeta = itemStack.getItemMeta();
-        setName(name);
-        this.itemMeta.setLore(lore);
+        if (name != null)
+            setName(name);
+        if (lore != null)
+            this.itemMeta.setLore(lore);
         this.build();
     }
 
