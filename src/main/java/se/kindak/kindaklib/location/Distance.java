@@ -12,33 +12,14 @@ public class Distance {
         return location1.distance(location2) < radius;
     }
 
-    public static List<Block> getBlocksInRadius(Location location, int radius) {
-        List<Block> blocks = new ArrayList<>();
-        //positivs
-        for (int x = 0; x < radius; x++) {
-            blocks.add(location.add(x, 0, 0).getBlock());
-            location.subtract(x, 0, 0);
-        }
-        for (int y = 0; y < radius; y++) {
-            blocks.add(location.add(0, y, 0).getBlock());
-            location.subtract(0, y, 0);
-        }
-        for (int z = 0; z < radius; z++) {
-            blocks.add(location.add(0, 0, z).getBlock());
-            location.subtract(0, 0, z);
-        }
-        // negatives
-        for (int x = 0; x < radius; x++) {
-            blocks.add(location.subtract(x, 0, 0).getBlock());
-            location.add(x, 0, 0);
-        }
-        for (int y = 0; y < radius; y++) {
-            blocks.add(location.subtract(0, y, 0).getBlock());
-            location.add(0, y, 0);
-        }
-        for (int z = 0; z < radius; z++) {
-            blocks.add(location.subtract(0, 0, z).getBlock());
-            location.add(0, 0, z);
+    public static List<Block> getNearbyBlocks(Location location, int radius) {
+        List<Block> blocks = new ArrayList<Block>();
+        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+                    blocks.add(location.getWorld().getBlockAt(x, y, z));
+                }
+            }
         }
         return blocks;
     }
