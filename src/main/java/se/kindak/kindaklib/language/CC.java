@@ -20,4 +20,8 @@ public class CC {
         return ChatColor.stripColor(message);
     }
 
+    public static String formatColors(char replace, String message) {
+        return ChatColor.translateAlternateColorCodes(replace, message);
+    }
+    
 }
